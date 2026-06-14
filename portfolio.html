@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Portfolio — SDN & Systems Researcher</title>
+
+    <!-- Favicon: inline SVG as data URI -->
+    <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B0C0E'/%3E%3Ccircle cx='32' cy='20' r='5' fill='%23F0A500'/%3E%3Ccircle cx='16' cy='46' r='4' fill='%23F0A500' opacity='.7'/%3E%3Ccircle cx='48' cy='46' r='4' fill='%23F0A500' opacity='.7'/%3E%3Cline x1='32' y1='25' x2='16' y2='42' stroke='%23F0A500' stroke-width='2' opacity='.5'/%3E%3Cline x1='32' y1='25' x2='48' y2='42' stroke='%23F0A500' stroke-width='2' opacity='.5'/%3E%3Cline x1='16' y1='46' x2='48' y2='46' stroke='%23F0A500' stroke-width='2' opacity='.3'/%3E%3C/svg%3E" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet"
+    />
+
+    <style>
+        /* ─── TOKENS ─────────────────────────────────────────── */
+        :root {
+            --bg: #0b0c0e;
+            --bg2: #111218;
+            --card: #13141a;
+            --card2: #181921;
+            --border: rgba(240, 165, 0, 0.13);
+            --accent: #f0a500;
+            --acc-dim: rgba(240, 165, 0, 0.12);
+            --acc-glow: rgba(240, 165, 0, 0.22);
+            --text: #f5f0e8;
+            --muted: #7a7a8c;
+            --dim: #3a3a4e;
+            --sans: 'DM Sans', sans-serif;
+            --display: 'Syne', sans-serif;
+            --mono: 'Fira Code', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── NOISE OVERLAY ──────────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ─── NAV ─────────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 6vw;
+            transition: background 0.3s, border 0.3s;
+        }
+        nav.scrolled {
+            background: rgba(11, 12, 14, 0.88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .nav-logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: logoPulse 2s ease infinite;
+        }
+        @keyframes logoPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 var(--acc-glow);
+            }
+            50% {
+                box-shadow: 0 0 0 6px transparent;
+            }
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            position: relative;
+            transition: color 0.2s;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.25s;
+        }
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Mobile menu button */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 10px;
+            cursor: pointer;
+            color: var(--muted);
+            transition: color 0.2s, border-color 0.2s;
+            z-index: 201;
+        }
+        .nav-toggle:hover {
+            color: var(--accent);
+            border-color: rgba(240, 165, 0, 0.4);
+        }
+        .nav-toggle svg {
+            display: block;
+        }
+
+        /* Mobile nav overlay */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 12, 14, 0.96);
+            backdrop-filter: blur(20px);
+            z-index: 199;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 36px;
+            list-style: none;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            font-family: var(--display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: color 0.2s;
+        }
+        .mobile-nav a:hover {
+            color: var(--accent);
+        }
+
+        /* ─── HERO ─────────────────────────────────────────────── */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 8vw;
+            overflow: hidden;
+        }
+        #three-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .hero-tag {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: riseIn 0.7s ease 0.1s forwards;
+        }
+        .hero-tag-line {
+            width: 32px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero-name {
+            font-family: var(--display);
+            font-size: clamp(52px, 9vw, 108px);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: riseIn 0.8s ease 0.25s forwards;
+        }
+        .hero-name-accent {
+            display: block;
+            background: linear-gradient(110deg, #f0a500 0%, #ff6b35 55%, #f0a500 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .hero-sub {
+            font-size: clamp(15px, 1.8vw, 20px);
+            font-weight: 300;
+            color: var(--muted);
+            max-width: 520px;
+            line-height: 1.75;
+            margin-bottom: 42px;
+            opacity: 0;
+            animation: riseIn 0.8s ease 0.42s forwards;
+        }
+        .hero-sub strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: riseIn 0.8s ease 0.58s forwards;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-family: var(--display);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 13px 26px;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+        .btn-solid {
+            background: var(--accent);
+            color: #0b0c0e;
+            box-shadow: 0 4px 0 rgba(240, 165, 0, 0.25);
+        }
+        .btn-solid:hover {
+            box-shadow: 0 8px 28px rgba(240, 165, 0, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 0 rgba(255, 255, 255, 0.03);
+        }
+        .btn-outline:hover {
+            border-color: rgba(240, 165, 0, 0.4);
+            color: var(--accent);
+        }
+
+        /* Hero scroll hint */
+        .scroll-hint {
+            position: absolute;
+            bottom: 36px;
+            left: 8vw;
+            z-index: 2;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--dim);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: fadeIn 1s ease 1.2s both;
+        }
+        .scroll-hint-bar {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(var(--accent), transparent);
+        }
+
+        /* ─── SECTION COMMON ─────────────────────────────────── */
+        section:not(#hero) {
+            padding: 100px 8vw;
+            position: relative;
+            z-index: 1;
+        }
+        .s-tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .s-head {
+            font-family: var(--display);
+            font-size: clamp(30px, 4.5vw, 52px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 56px;
+        }
+
+        /* ─── ABOUT ──────────────────────────────────────────── */
+        #about {
+            border-top: 1px solid var(--border);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .about-text p {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.85;
+            margin-bottom: 18px;
+        }
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+        .about-text strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .research-pills {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .r-pill {
+            padding: 20px 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+            cursor: default;
+        }
+        .r-pill:hover {
+            border-color: rgba(240, 165, 0, 0.35);
+            transform: translateX(6px);
+            box-shadow: 0 0 32px rgba(240, 165, 0, 0.07);
+        }
+        .r-pill-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+        .r-pill-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--acc-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .r-pill h4 {
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .r-pill p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            padding-left: 44px;
+        }
+
+        /* ─── SKILLS ─────────────────────────────────────────── */
+        #skills {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+        }
+        .tech-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+        .tech-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--muted);
+            transition: border-color 0.2s, color 0.2s, transform 0.15s;
+        }
+        .tech-chip:hover {
+            border-color: rgba(240, 165, 0, 0.4);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+        .tech-chip svg {
+            flex-shrink: 0;
+        }
+
+        /* ─── PROJECTS ───────────────────────────────────────── */
+        #projects {
+            border-top: 1px solid var(--border);
+        }
+        .proj-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .proj-header .s-head {
+            margin-bottom: 0;
+        }
+        .gh-all {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: color 0.2s;
+            padding-bottom: 4px;
+        }
+        .gh-all:hover {
+            color: var(--accent);
+        }
+
+        .proj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 18px;
+            align-items: start;
+        }
+
+        /* card */
+        .proj-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+            position: relative;
+        }
+        .proj-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), #ff6b35, #7b5ea7);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+        .proj-card:hover {
+            border-color: rgba(240, 165, 0, 0.3);
+            box-shadow: 0 12px 48px rgba(240, 165, 0, 0.09);
+            transform: translateY(-5px);
+        }
+        .proj-card:hover::before {
+            transform: scaleX(1);
+        }
+        .proj-card.expanded {
+            transform: none !important;
+            border-color: rgba(240, 165, 0, 0.45) !important;
+            box-shadow: 0 16px 60px rgba(240, 165, 0, 0.14) !important;
+        }
+        .proj-card.expanded::before {
+            transform: scaleX(1);
+        }
+
+        .proj-top {
+            padding: 22px 22px 18px;
+        }
+        .proj-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .proj-icon-wrap {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: var(--acc-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .proj-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .proj-gh-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .proj-gh-link:hover {
+            color: var(--accent);
+            border-color: rgba(240, 165, 0, 0.4);
+            background: var(--acc-dim);
+        }
+        .proj-expand-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            background: none;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.25s;
+        }
+        .proj-card.expanded .proj-expand-btn {
+            color: var(--accent);
+            border-color: rgba(240, 165, 0, 0.4);
+            background: var(--acc-dim);
+            transform: rotate(45deg);
+        }
+
+        .proj-name {
+            font-family: var(--display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .proj-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.65;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 43px;
+        }
+        .proj-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 22px;
+            border-top: 1px solid var(--border);
+            background: var(--card2);
+        }
+        .proj-lang {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .lang-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .proj-stars {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* expanded drawer */
+        .proj-drawer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .proj-card.expanded .proj-drawer {
+            max-height: 600px;
+        }
+        .proj-drawer-inner {
+            padding: 20px 22px 22px;
+            border-top: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--card2), var(--card));
+        }
+        .drawer-section-title {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .drawer-summary {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.75;
+            margin-bottom: 18px;
+        }
+        .drawer-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+        .drawer-tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            background: var(--acc-dim);
+            color: var(--accent);
+            border: 1px solid rgba(240, 165, 0, 0.2);
+        }
+        .drawer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: var(--display);
+            font-size: 13px;
+            font-weight: 600;
+            color: #0b0c0e;
+            background: var(--accent);
+            padding: 9px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            transition: box-shadow 0.18s, transform 0.15s;
+        }
+        .drawer-link:hover {
+            box-shadow: 0 6px 20px rgba(240, 165, 0, 0.35);
+            transform: translateY(-2px);
+        }
+
+        /* loading */
+        .proj-loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 0;
+        }
+        .ld-dots {
+            display: inline-flex;
+            gap: 7px;
+        }
+        .ld-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: dotB 1.2s ease infinite;
+        }
+        .ld-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .ld-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes dotB {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        /* ─── CONNECT ────────────────────────────────────────── */
+        #connect {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+        }
+        .connect-wrap {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+        .connect-left p {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.85;
+            margin-bottom: 32px;
+        }
+        .connect-left .email-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 700;
+            color: #0b0c0e;
+            background: var(--accent);
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 0 rgba(240, 165, 0, 0.3);
+            transition: transform 0.18s, box-shadow 0.18s;
+        }
+        .connect-left .email-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(240, 165, 0, 0.4);
+        }
+        .email-btn-ping {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0b0c0e;
+            animation: logoPulse 1.5s ease infinite;
+        }
+
+        .social-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .soc-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: border-color 0.22s, transform 0.18s, box-shadow 0.22s;
+        }
+        .soc-link:hover {
+            border-color: rgba(240, 165, 0, 0.4);
+            transform: translateX(5px);
+            box-shadow: 0 4px 24px rgba(240, 165, 0, 0.08);
+        }
+        .soc-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--acc-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .soc-text {
+            flex: 1;
+        }
+        .soc-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--dim);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+        .soc-handle {
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .soc-arr {
+            color: var(--dim);
+            transition: color 0.2s;
+        }
+        .soc-link:hover .soc-arr {
+            color: var(--accent);
+        }
+
+        /* ─── FOOTER ─────────────────────────────────────────── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 8vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .footer-mono {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--dim);
+        }
+        .footer-mono span {
+            color: var(--accent);
+        }
+
+        /* ─── ANIMATIONS ─────────────────────────────────────── */
+        @keyframes riseIn {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.vis {
+            opacity: 1;
+            transform: none;
+        }
+        .reveal-d1 {
+            transition-delay: 0.08s;
+        }
+        .reveal-d2 {
+            transition-delay: 0.16s;
+        }
+        .reveal-d3 {
+            transition-delay: 0.24s;
+        }
+
+        /* ─── RESPONSIVE ─────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .connect-wrap {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                padding: 16px 5vw;
+            }
+            .nav-links {
+                gap: 18px;
+            }
+            .proj-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+            section:not(#hero) {
+                padding: 72px 6vw;
+            }
+            #hero {
+                padding: 0 6vw;
+            }
+            .hero-name {
+                font-size: clamp(42px, 8vw, 72px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .proj-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .proj-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            section:not(#hero) {
+                padding: 56px 5vw;
+            }
+            #hero {
+                padding: 0 5vw;
+                min-height: 100vh;
+                justify-content: center;
+            }
+            .hero-name {
+                font-size: clamp(36px, 10vw, 52px);
+                margin-bottom: 14px;
+            }
+            .hero-sub {
+                font-size: 14px;
+                margin-bottom: 28px;
+            }
+            .hero-cta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+            }
+            .scroll-hint {
+                bottom: 20px;
+                left: 5vw;
+            }
+            .about-grid {
+                gap: 32px;
+            }
+            .about-text p {
+                font-size: 14px;
+            }
+            .connect-wrap {
+                gap: 36px;
+            }
+            .soc-link {
+                padding: 14px 16px;
+            }
+            .tech-row {
+                gap: 12px;
+            }
+            .tech-chip {
+                padding: 8px 14px;
+                font-size: 11px;
+                gap: 6px;
+            }
+            .tech-chip svg {
+                width: 15px;
+                height: 15px;
+            }
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            .proj-top {
+                padding: 16px 16px 14px;
+            }
+            .proj-meta {
+                padding: 10px 16px;
+            }
+            .proj-name {
+                font-size: 15px;
+            }
+            .proj-drawer-inner {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .hero-name {
+                font-size: 30px;
+            }
+            .hero-sub {
+                font-size: 13px;
+            }
+            .hero-tag {
+                font-size: 10px;
+                gap: 6px;
+            }
+            .hero-tag-line {
+                width: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ── NAV ── -->
+    <nav id="nav">
+        <a href="#hero" class="nav-logo">
+            <div class="nav-logo-dot"></div>
+            <span>// Akash Mishra</span>
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#about">research</a></li>
+            <li><a href="#skills">stack</a></li>
+            <li><a href="#projects">projects</a></li>
+            <li><a href="#connect">connect</a></li>
+        </ul>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile nav overlay -->
+    <ul class="mobile-nav" id="mobile-nav">
+        <li><a href="#about">research</a></li>
+        <li><a href="#skills">stack</a></li>
+        <li><a href="#projects">projects</a></li>
+        <li><a href="#connect">connect</a></li>
+    </ul>
+
+    <!-- ── HERO ── -->
+    <section id="hero">
+        <canvas id="three-bg"></canvas>
+
+        <div class="hero-content">
+            <div class="hero-tag">
+                <div class="hero-tag-line"></div>
+                SDN Researcher · Web developer
+            </div>
+
+            <h1 class="hero-name">
+                <span class="hero-name-accent">Akash Mishra</span>
+            </h1>
+
+            <p class="hero-sub">
+                Exploring <strong>Software Defined Networks</strong> and protocol design. Building systems that are fast,
+                correct, and programmable — from control planes to full-stack applications.
+            </p>
+
+            <div class="hero-cta">
+                <a href="resume.pdf" download class="btn btn-solid">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path d="M12 16l-4-5h2.5V4h3v7H16l-4 5z" />
+                        <path d="M4 20h16" stroke-linecap="round" />
+                    </svg>
+                    Download Résumé
+                </a>
+                <a href="mailto:a25cs08002@iitbbs.ac.in" class="btn btn-outline">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                        <path d="m2 8 10 7 10-7" />
+                    </svg>
+                    Email Me
+                </a>
+            </div>
+        </div>
+
+        <div class="scroll-hint">
+            <div class="scroll-hint-bar"></div>
+            scroll
+        </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+        <p class="s-tag reveal">Research Focus</p>
+        <h2 class="s-head reveal">Networks as<br />Programmable Systems</h2>
+
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <p>
+                    I work at the intersection of <strong>Software Defined Networking</strong> and network protocol
+                    research — asking how we can decouple the intelligence of a network from its physical substrate to
+                    make infrastructure adaptive, verifiable, and observable.
+                </p>
+                <p>
+                    Outside research, I build production-grade systems with the <strong>MERN stack</strong> and bring a
+                    competitive programmer's obsession with correctness and performance to every line of C++ I write.
+                </p>
+            </div>
+
+            <div class="research-pills">
+                <div class="r-pill reveal reveal-d1">
+                    <div class="r-pill-row">
+                        <div class="r-pill-icon">🔀</div>
+                        <h4>Software Defined Networking</h4>
+                    </div>
+                    <p>Control/data-plane separation, OpenFlow, programmable forwarding pipelines, controller design.</p>
+                </div>
+                <div class="r-pill reveal reveal-d2">
+                    <div class="r-pill-row">
+                        <div class="r-pill-icon">📡</div>
+                        <h4>Network Protocol Design</h4>
+                    </div>
+                    <p>Custom protocol specification, transport-layer optimisation, congestion control, formal verification.</p>
+                </div>
+                <div class="r-pill reveal reveal-d3">
+                    <div class="r-pill-row">
+                        <div class="r-pill-icon">⚙️</div>
+                        <h4>Distributed Systems</h4>
+                    </div>
+                    <p>Consensus, fault tolerance, and high-throughput networked applications at scale.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SKILLS ── -->
+    <section id="skills">
+        <p class="s-tag reveal">Technical Stack</p>
+        <h2 class="s-head reveal" style="margin-bottom: 32px">What I Build With</h2>
+
+        <div class="tech-row reveal">
+            <div class="tech-chip">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 2L2 9v14l14 7 14-7V9L16 2z" fill="#00599C" />
+                    <path d="M16 6l10 5v10L16 26 6 21V11l10-5z" fill="#004482" />
+                    <text x="9" y="22" font-family="Arial" font-size="12" fill="white" font-weight="bold">C++</text>
+                </svg>
+                C++
+            </div>
+            <div class="tech-chip">
+                <svg width="18" height="18" viewBox="0 0 32 32">
+                    <path d="M15.9 3C9.6 3 10 5.8 10 5.8V9h6v1H6.7S3 9.6 3 16s4.2 6 4.2 6H9v-3s-.1-4.2 4-4.2h6.7S24 14.9 24 11V6.7C24 6.7 22.7 3 15.9 3zm-1 1.8c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4S13.5 7 13.5 6.2s.6-1.4 1.4-1.4z" fill="#3776AB" />
+                    <path d="M16.1 29c6.3 0 5.9-2.8 5.9-2.8V23h-6v-1h9.3S29 22.4 29 16s-4.2-6-4.2-6H23v3s.1 4.2-4 4.2h-6.7S8 17.1 8 21V25.3C8 25.3 9.3 29 16.1 29zm1-1.8c-.8 0-1.4-.6-1.4-1.4s.6-1.4 1.4-1.4 1.4.6 1.4 1.4-.6 1.4-1.4 1.4z" fill="#FFD43B" />
+                </svg>
+                Python
+            </div>
+            <div class="tech-chip">
+                <svg width="18" height="18" viewBox="0 0 32 32">
+                    <rect width="32" height="32" rx="3" fill="#F7DF1E" />
+                    <path d="M8 25.5l2.6-1.6c.5 1 .9 1.8 2 1.8 1 0 1.7-.4 1.7-2.1V14h3.2v9.7c0 3.4-2 5-4.9 5-2.6 0-4.1-1.4-4.9-3.2zm11.3-.4l2.6-1.5c.7 1.2 1.6 2 3.2 2 1.4 0 2.2-.7 2.2-1.6 0-1.1-.9-1.5-2.4-2.1l-.8-.4c-2.4-1-4-2.3-4-5 0-2.5 1.9-4.4 4.9-4.4 2.1 0 3.7.7 4.7 2.6l-2.6 1.7c-.6-1-1.1-1.4-2.1-1.4s-1.6.6-1.6 1.4c0 1 .6 1.4 2 2l.8.4c2.8 1.2 4.4 2.4 4.4 5.1 0 2.9-2.3 4.6-5.4 4.6-3 0-5-1.4-5.9-3.4z" fill="#000" />
+                </svg>
+                JavaScript
+            </div>
+            <div class="tech-chip">
+                <svg width="18" height="18" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="3" fill="#61DAFB" />
+                    <path d="M16 8.9c4.3 0 8.3.6 11.2 1.7 3.5 1.3 5.4 3.2 5.4 5.4s-1.9 4.1-5.4 5.4c-2.9 1.1-6.9 1.7-11.2 1.7s-8.3-.6-11.2-1.7C1.3 20.1-.6 18.2-.6 16s1.9-4.1 5.4-5.4C7.7 9.5 11.7 8.9 16 8.9z" fill="none" stroke="#61DAFB" stroke-width="1.5" />
+                    <path d="M11.1 12.5c2.1-3.7 4.6-6.7 6.9-8.6 2.7-2.2 5-2.8 6.9-1.7 1.9 1.1 2.6 3.5 2 6.8-.5 2.9-2 6.5-4.2 10.1-2.1 3.7-4.6 6.7-6.9 8.6-2.7 2.2-5 2.8-6.9 1.7-1.9-1.1-2.6-3.5-2-6.8.6-2.9 2.1-6.5 4.2-10.1z" fill="none" stroke="#61DAFB" stroke-width="1.5" />
+                    <path d="M11.1 19.5c-2.1-3.7-3.6-7.2-4.2-10.1-.6-3.3.1-5.7 2-6.8 1.9-1.1 4.2-.5 6.9 1.7 2.3 1.9 4.8 4.9 6.9 8.6 2.1 3.7 3.6 7.2 4.2 10.1.6 3.3-.1 5.7-2 6.8-1.9 1.1-4.2.5-6.9-1.7-2.3-1.9-4.8-4.9-6.9-8.6z" fill="none" stroke="#61DAFB" stroke-width="1.5" />
+                </svg>
+                React
+            </div>
+            <div class="tech-chip">
+                <svg width="18" height="18" viewBox="0 0 32 32">
+                    <path d="M16 3L3 10.5v11L16 29l13-7.5v-11L16 3z" fill="#339933" />
+                    <path d="M16 7l9 5.2v8.6L16 26l-9-5.2v-8.6L16 7z" fill="#fff" opacity=".1" />
+                    <text x="8" y="22" font-family="Arial" font-size="10" fill="white" font-weight="bold">JS</text>
+                </svg>
+                Node.js
+            </div>
+            <div class="tech-chip">
+                <svg width="18" height="18" viewBox="0 0 32 32">
+                    <path d="M16 3c-1.1 4.5-3.5 6-4.7 9.4-1.5 4.1-.3 7 1.4 8.6.4-1.4.8-2.2 2.2-3.1.9 3.1 2.7 5.2 3.5 8.1.4 1.2.5 2 .5 3 .9-.5 1.6-1.3 2-2.3 1.2-3-.3-6-1.8-8.7.7-.1 1.4.4 2.1 1-.2-4.2-2.5-6.8-5.2-16z" fill="#10AA50" />
+                </svg>
+                MongoDB
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PROJECTS ── -->
+    <section id="projects">
+        <div class="proj-header">
+            <div>
+                <p class="s-tag reveal">Open Source</p>
+                <h2 class="s-head reveal">My Projects</h2>
+            </div>
+            <a href="https://github.com/akash4-sys" target="_blank" class="gh-all reveal">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.8c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                View all
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M7 17l10-10M7 7h10v10" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="proj-grid" id="proj-grid">
+            <div class="proj-loading">
+                <div class="ld-dots"><span></span><span></span><span></span></div>
+                <p style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:14px">Fetching pinned repositories…</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CONNECT ── -->
+    <section id="connect">
+        <p class="s-tag reveal">Get in Touch</p>
+        <h2 class="s-head reveal">Let's Talk</h2>
+
+        <div class="connect-wrap">
+            <div class="connect-left reveal">
+                <p>
+                    Whether it's a research collaboration on network programmability, an interesting engineering
+                    challenge, or just a conversation — reach out. I read everything.
+                </p>
+                <a href="mailto:a25cs08002@iitbbs.ac.in" class="email-btn">
+                    <div class="email-btn-ping"></div>
+                    a25cs08002@iitbbs.ac.in
+                </a>
+            </div>
+
+            <div class="social-stack reveal reveal-d1">
+                <a href="https://github.com/akash4-sys" target="_blank" class="soc-link">
+                    <div class="soc-icon">
+                        <svg width="22" height="22" fill="#F5F0E8" viewBox="0 0 24 24">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.8c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                    </div>
+                    <div class="soc-text">
+                        <div class="soc-label">GitHub</div>
+                        <div class="soc-handle">akash4-sys</div>
+                    </div>
+                    <svg class="soc-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M7 17l10-10M7 7h10v10" />
+                    </svg>
+                </a>
+
+                <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" class="soc-link">
+                    <div class="soc-icon">
+                        <svg width="22" height="22" fill="#0A66C2" viewBox="0 0 24 24">
+                            <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
+                        </svg>
+                    </div>
+                    <div class="soc-text">
+                        <div class="soc-label">LinkedIn</div>
+                        <div class="soc-handle">YOUR_LINKEDIN</div>
+                    </div>
+                    <svg class="soc-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M7 17l10-10M7 7h10v10" />
+                    </svg>
+                </a>
+
+                <a href="https://leetcode.com/YOUR_LEETCODE" target="_blank" class="soc-link">
+                    <div class="soc-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <path d="M13.5 2.5L5 11l2 2 6.5-6.5L13.5 2.5z" fill="#FFA116" />
+                            <path d="M16 7l-4 4-4-4 2-2 2 2 2-2 2 2z" fill="#FFA116" />
+                            <rect x="4" y="15" width="16" height="2" rx="1" fill="#FFA116" />
+                        </svg>
+                    </div>
+                    <div class="soc-text">
+                        <div class="soc-label">LeetCode</div>
+                        <div class="soc-handle">YOUR_LEETCODE</div>
+                    </div>
+                    <svg class="soc-arr" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M7 17l10-10M7 7h10v10" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <p class="footer-mono">Built with <span>♥</span> · signal over noise</p>
+        <p class="footer-mono">© <span id="yr"></span> Akash Mishra</p>
+    </footer>
+
+    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+    </script>
+    <script>
+        /* ════════════════════════════════════════════════════════
+               CONFIG
+            ════════════════════════════════════════════════════════ */
+        const CFG = {
+            github: 'akash4-sys',
+            linkedin: 'akash-mishra-045aa5244',
+            leetcode: 'codex47',
+            email: 'a25cs08002@iitbbs.ac.in',
+            resume: 'resume.pdf',
+            // Manually override pinned repos (optional – leave empty to auto-fetch)
+            manualRepos: []
+        };
+
+        /* ─── apply config ─── */
+        (function applyConfig() {
+            document.querySelectorAll('a[href*="YOUR_GITHUB_USERNAME"]').forEach(el => {
+                el.href = el.href.replace('YOUR_GITHUB_USERNAME', CFG.github);
+            });
+            document.querySelectorAll('a[href*="YOUR_LINKEDIN"]').forEach(el => {
+                el.href = el.href.replace('YOUR_LINKEDIN', CFG.linkedin);
+            });
+            document.querySelectorAll('a[href*="YOUR_LEETCODE"]').forEach(el => {
+                el.href = el.href.replace('YOUR_LEETCODE', CFG.leetcode);
+            });
+            document.querySelectorAll('[href="mailto:you@example.com"]').forEach(el => el.href =
+                `mailto:${CFG.email}`);
+            document.querySelectorAll('[download]').forEach(el => el.href = CFG.resume);
+            document.querySelectorAll('.soc-handle').forEach(el => {
+                if (el.textContent.trim() === 'YOUR_GITHUB_USERNAME') el.textContent = CFG.github;
+                if (el.textContent.trim() === 'YOUR_LINKEDIN') el.textContent = CFG.linkedin;
+                if (el.textContent.trim() === 'YOUR_LEETCODE') el.textContent = CFG.leetcode;
+            });
+            document.querySelector('.nav-logo span').textContent = `// Akash Mishra`;
+            document.getElementById('yr').textContent = new Date().getFullYear();
+        })();
+
+        /* ─── nav scroll ─── */
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        /* ─── mobile nav toggle ─── */
+        (function initMobileNav() {
+            const toggleBtn = document.getElementById('nav-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileLinks = mobileNav.querySelectorAll('a');
+
+            function openMenu() {
+                mobileNav.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                if (mobileNav.classList.contains('active')) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+        })();
+
+        /* ─── scroll reveal ─── */
+        (function initReveal() {
+            const io = new IntersectionObserver(entries => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        setTimeout(() => e.target.classList.add('vis'), i * 70);
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        })();
+
+        /* ════════════════════════════════════════════════════════
+               THREE.JS CONSTELLATION BACKGROUND (FULL SCREEN)
+            ════════════════════════════════════════════════════════ */
+        (function initThree() {
+            const canvas = document.getElementById('three-bg');
+            const hero = document.getElementById('hero');
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+            camera.position.z = 5;
+
+            function resize() {
+                // Always cover the full hero section dimensions
+                const rect = hero.getBoundingClientRect();
+                const W = rect.width || window.innerWidth;
+                const H = rect.height || window.innerHeight;
+                renderer.setSize(W, H, false);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                camera.aspect = W / Math.max(H, 1);
+                camera.updateProjectionMatrix();
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+            window.addEventListener('scroll', resize, { passive: true });
+
+            const NCOUNT = window.innerWidth < 600 ? 50 : 110;
+            const CONNECT_DIST = 1.8;
+            const AMBER = new THREE.Color('#F0A500');
+            const ORANGE = new THREE.Color('#FF6B35');
+
+            // Nodes
+            const nodeGeo = new THREE.SphereGeometry(0.025, 8, 8);
+            const nodeMat = new THREE.MeshBasicMaterial({ color: AMBER });
+            const nodes = [];
+            const nodeGroup = new THREE.Group();
+
+            for (let i = 0; i < NCOUNT; i++) {
+                const mesh = new THREE.Mesh(nodeGeo, nodeMat.clone());
+                const x = (Math.random() - 0.5) * 10;
+                const y = (Math.random() - 0.5) * 6;
+                const z = (Math.random() - 0.5) * 2;
+                mesh.position.set(x, y, z);
+                mesh.userData = {
+                    ox: x,
+                    oy: y,
+                    oz: z,
+                    vx: (Math.random() - 0.5) * 0.003,
+                    vy: (Math.random() - 0.5) * 0.003,
+                    phase: Math.random() * Math.PI * 2
+                };
+                nodeGroup.add(mesh);
+                nodes.push(mesh);
+            }
+            scene.add(nodeGroup);
+
+            // Lines buffer
+            const MAX_LINES = NCOUNT * 6;
+            const linePositions = new Float32Array(MAX_LINES * 6);
+            const lineColors = new Float32Array(MAX_LINES * 6);
+            const lineGeo = new THREE.BufferGeometry();
+            lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+            lineGeo.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+            const lineMat = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.5
+            });
+            const lineSegments = new THREE.LineSegments(lineGeo, lineMat);
+            scene.add(lineSegments);
+
+            // Mouse
+            const mouse = { x: 0, y: 0, nx: 0, ny: 0 };
+            window.addEventListener('mousemove', e => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.nx = ((e.clientX - rect.left) / Math.max(rect.width, 1)) * 2 - 1;
+                mouse.ny = -(((e.clientY - rect.top) / Math.max(rect.height, 1)) * 2 - 1);
+            });
+
+            let frame = 0;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                frame++;
+                mouse.x += (mouse.nx - mouse.x) * 0.05;
+                mouse.y += (mouse.ny - mouse.y) * 0.05;
+
+                const mx = mouse.x * 5;
+                const my = mouse.y * 3;
+
+                nodes.forEach((n) => {
+                    const u = n.userData;
+                    u.phase += 0.008;
+                    n.position.x = u.ox + Math.sin(u.phase) * 0.08 + u.vx * frame;
+                    n.position.y = u.oy + Math.cos(u.phase * 0.7) * 0.06 + u.vy * frame;
+
+                    if (n.position.x > 5.2) u.ox -= 10.4;
+                    if (n.position.x < -5.2) u.ox += 10.4;
+                    if (n.position.y > 3.2) u.oy -= 6.4;
+                    if (n.position.y < -3.2) u.oy += 6.4;
+
+                    const dx = mx - n.position.x;
+                    const dy = my - n.position.y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 2.0) {
+                        const f = (1 - d / 2.0) * 0.006;
+                        n.position.x += dx * f;
+                        n.position.y += dy * f;
+                    }
+
+                    const bright = 0.6 + Math.sin(u.phase) * 0.4;
+                    n.material.color.setRGB(
+                        AMBER.r * bright + ORANGE.r * (1 - bright) * 0.3,
+                        AMBER.g * bright,
+                        AMBER.b
+                    );
+                });
+
+                let li = 0;
+                const pos = lineGeo.attributes.position.array;
+                const col = lineGeo.attributes.color.array;
+
+                for (let i = 0; i < nodes.length && li < MAX_LINES; i++) {
+                    for (let j = i + 1; j < nodes.length && li < MAX_LINES; j++) {
+                        const a = nodes[i].position,
+                            b = nodes[j].position;
+                        const dx = a.x - b.x,
+                            dy = a.y - b.y,
+                            dz = a.z - b.z;
+                        const d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        if (d < CONNECT_DIST) {
+                            const alpha = (1 - d / CONNECT_DIST);
+                            pos[li * 6] = a.x;
+                            pos[li * 6 + 1] = a.y;
+                            pos[li * 6 + 2] = a.z;
+                            pos[li * 6 + 3] = b.x;
+                            pos[li * 6 + 4] = b.y;
+                            pos[li * 6 + 5] = b.z;
+                            col[li * 6] = AMBER.r * alpha;
+                            col[li * 6 + 1] = AMBER.g * alpha;
+                            col[li * 6 + 2] = 0;
+                            col[li * 6 + 3] = AMBER.r * alpha;
+                            col[li * 6 + 4] = AMBER.g * alpha;
+                            col[li * 6 + 5] = 0;
+                            li++;
+                        }
+                    }
+                }
+
+                lineGeo.setDrawRange(0, li * 2);
+                lineGeo.attributes.position.needsUpdate = true;
+                lineGeo.attributes.color.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                animate();
+            } else {
+                renderer.render(scene, camera);
+            }
+        })();
+
+        /* ════════════════════════════════════════════════════════
+               LANGUAGE COLOURS
+            ════════════════════════════════════════════════════════ */
+        const LANG_COLORS = {
+            'JavaScript': '#f1e05a',
+            'TypeScript': '#3178c6',
+            'Python': '#3572A5',
+            'C++': '#f34b7d',
+            'C': '#555555',
+            'Java': '#b07219',
+            'Go': '#00ADD8',
+            'Rust': '#dea584',
+            'Shell': '#89e051',
+            'HTML': '#e34c26',
+            'CSS': '#563d7c',
+        };
+
+        /* ════════════════════════════════════════════════════════
+               BUILD PROJECT CARD (no inline listeners)
+            ════════════════════════════════════════════════════════ */
+        function buildCard(r) {
+            const color = LANG_COLORS[r.lang] || '#8892b0';
+            const card = document.createElement('div');
+            card.className = 'proj-card';
+            // Store repo data as dataset attributes for the delegated handler
+            card.dataset.repoName = escH(r.name);
+            card.dataset.repoDesc = escH(r.desc || 'No description provided.');
+            card.dataset.repoLang = escH(r.lang);
+            card.dataset.repoStars = escH(r.stars);
+            card.dataset.repoUrl = escH(r.url);
+
+            card.innerHTML = `
+            <div class="proj-top">
+              <div class="proj-row">
+                <div class="proj-icon-wrap">
+                  <svg width="18" height="18" fill="none" stroke="#F0A500" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
+                  </svg>
+                </div>
+                <div class="proj-actions">
+                  <a href="${escH(r.url)}" target="_blank" rel="noopener"
+                     class="proj-gh-link" title="Open on GitHub"
+                     data-action="github">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.8c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                  </a>
+                  <button class="proj-expand-btn" title="Expand details" data-action="expand">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                      <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="proj-name">${escH(r.name)}</div>
+              <div class="proj-desc">${escH(r.desc || 'No description provided.')}</div>
+            </div>
+            <div class="proj-meta">
+              ${r.lang ? `<span class="proj-lang"><span class="lang-dot" style="background:${color}"></span>${escH(r.lang)}</span>` : ''}
+              <span class="proj-stars">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                ${escH(r.stars)}
+              </span>
+            </div>
+            <div class="proj-drawer">
+              <div class="proj-drawer-inner">
+                <div class="drawer-section-title">About this project</div>
+                <div class="drawer-summary">
+                  <div class="ld-dots"><span></span><span></span><span></span></div>
+                </div>
+                <div class="drawer-tags"></div>
+                <a href="${escH(r.url)}" target="_blank" rel="noopener" class="drawer-link" data-action="github">
+                  <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.8c1.02 0 2.05.14 3.01.4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Open on GitHub
+                </a>
+              </div>
+            </div>`;
+
+            return card;
+        }
+
+        /* ════════════════════════════════════════════════════════
+               DELEGATED CLICK HANDLER — ONE CARD AT A TIME
+            ════════════════════════════════════════════════════════ */
+        function initProjectGridDelegation() {
+            const grid = document.getElementById('proj-grid');
+            if (!grid) return;
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.proj-card')) {
+                    document.querySelectorAll('.proj-card.expanded').forEach(c => {
+                        c.classList.remove('expanded');
+                    });
+                }
+            });
+
+            grid.addEventListener('click', function(e) {
+                // If the click was on a link/button with data-action, handle specially
+                const actionElement = e.target.closest('[data-action]');
+                if (actionElement && actionElement.getAttribute('data-action') === 'github') {
+                    // Let the default link behavior happen (opens GitHub)
+                    return;
+                }
+
+                // Otherwise, find the card that was clicked and toggle it
+                const card = e.target.closest('.proj-card');
+                if (!card) return;
+
+                // If the click was on the expand button, use that same logic
+                toggleSingleCard(card);
+            });
+        }
+
+        function toggleSingleCard(card) {
+            const wasExpanded = card.classList.contains('expanded');
+
+            // Close all other expanded cards (and also close this one if it was open)
+            document.querySelectorAll('.proj-card.expanded').forEach(c => {
+                c.classList.remove('expanded');
+            });
+
+            // If the clicked card was NOT expanded before, expand it now
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+                // Load AI summary only once
+                if (!card.dataset.summaryLoaded) {
+                    card.dataset.summaryLoaded = '1';
+                    const repoData = {
+                        name: card.dataset.repoName,
+                        desc: card.dataset.repoDesc,
+                        lang: card.dataset.repoLang,
+                        stars: card.dataset.repoStars,
+                        url: card.dataset.repoUrl,
+                    };
+                    loadCardSummary(card, repoData);
+                }
+            }
+        }
+
+        async function loadCardSummary(card, r) {
+            const summaryEl = card.querySelector('.drawer-summary');
+            const tagsEl = card.querySelector('.drawer-tags');
+
+            if (summaryEl) {
+                summaryEl.innerHTML = '<div class="ld-dots"><span></span><span></span><span></span></div>';
+            }
+
+            try {
+                const ai = await fetchAISummary(r.name, r.desc, r.lang);
+                if (summaryEl) summaryEl.textContent = ai.summary;
+                if (tagsEl && ai.tags) {
+                    tagsEl.innerHTML = ai.tags.map(t => `<span class="drawer-tag">${escH(t)}</span>`).join('');
+                }
+            } catch (e) {
+                if (summaryEl) summaryEl.textContent = r.desc || 'A project by this developer. Visit the repository for full details.';
+                if (tagsEl) {
+                    tagsEl.innerHTML = [r.lang, 'Open Source'].filter(Boolean)
+                        .map(t => `<span class="drawer-tag">${escH(t)}</span>`).join('');
+                }
+            }
+        }
+
+        function escH(s) {
+            return String(s || '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            } [m]));
+        }
+
+        /* ════════════════════════════════════════════════════════
+               AI SUMMARY (requires API key)
+            ════════════════════════════════════════════════════════ */
+        async function fetchAISummary(repoName, repoDesc, repoLang) {
+            const ANTHROPIC_API_KEY = ''; // <-- set your key here
+            if (!ANTHROPIC_API_KEY) throw new Error('No API key');
+
+            const resp = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': ANTHROPIC_API_KEY,
+                    'anthropic-version': '2023-06-01'
+                },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-6',
+                    max_tokens: 1000,
+                    system: `You are a technical writer creating concise project summaries. Respond ONLY with valid JSON: {"summary":"...","tags":["tag1","tag2","tag3"]}`,
+                    messages: [{
+                        role: 'user',
+                        content: `Repository: ${repoName}\nDescription: ${repoDesc || 'No description'}\nPrimary Language: ${repoLang || 'Unknown'}`
+                    }]
+                })
+            });
+            const data = await resp.json();
+            const text = data.content?.find(b => b.type === 'text')?.text || '{}';
+            return JSON.parse(text.replace(/```json?|```/g, '').trim());
+        }
+
+        /* ════════════════════════════════════════════════════════
+               LOAD GITHUB PINNED REPOS
+            ════════════════════════════════════════════════════════ */
+        (async function loadRepos() {
+            const grid = document.getElementById('proj-grid');
+            const uname = CFG.github;
+
+            if (CFG.manualRepos && CFG.manualRepos.length > 0) {
+                renderCards(grid, CFG.manualRepos);
+                return;
+            }
+
+            if (!uname || uname === 'YOUR_GITHUB_USERNAME') {
+                showPlaceholders(grid, false);
+                return;
+            }
+
+            let repos = null;
+
+            // Try scraping pinned repos via proxy
+            const proxyUrls = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://github.com/${uname}`)}`,
+                `https://corsproxy.io/?${encodeURIComponent(`https://github.com/${uname}`)}`,
+            ];
+
+            for (const proxyUrl of proxyUrls) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+                    const res = await fetch(proxyUrl, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    if (!res.ok) continue;
+                    const html = await res.text();
+                    repos = parsePinnedRepos(html, uname);
+                    if (repos && repos.length > 0) break;
+                } catch (e) {
+                    continue;
+                }
+            }
+
+            if (repos && repos.length > 0) {
+                renderCards(grid, repos);
+                return;
+            }
+
+            // Fallback: GitHub REST API (top starred repos)
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const res = await fetch(
+                    `https://api.github.com/users/${uname}/repos?sort=stars&per_page=6`,
+                    { signal: controller.signal }
+                );
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length > 0) {
+                        repos = data.slice(0, 6).map(r => ({
+                            name: r.name,
+                            desc: r.description || '',
+                            lang: r.language || '',
+                            stars: String(r.stargazers_count),
+                            forks: String(r.forks_count),
+                            url: r.html_url
+                        }));
+                        renderCards(grid, repos);
+                        return;
+                    }
+                }
+            } catch (e) {}
+
+            showPlaceholders(grid, true);
+        })();
+
+        function parsePinnedRepos(html, uname) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const pins = doc.querySelectorAll('.pinned-item-list-item, [data-hovercard-type="repository"]');
+            if (!pins.length) return null;
+
+            const repos = [];
+            const seenNames = new Set();
+
+            Array.from(pins).forEach(p => {
+                let nameEl = p.querySelector('[itemprop="name"], .repo, .repo-name');
+                if (!nameEl) nameEl = p;
+                let nm = (nameEl.textContent || '').trim().replace(/\s+/g, ' ');
+                if (!nm || seenNames.has(nm)) return;
+                seenNames.add(nm);
+
+                const desc = p.querySelector('.pinned-item-desc, [itemprop="description"]')?.textContent?.trim() || '';
+                const lang = p.querySelector('[itemprop="programmingLanguage"]')?.textContent?.trim() || '';
+                const stars = p.querySelector('[href*="stargazers"]')?.textContent?.trim() || '0';
+
+                repos.push({
+                    name: nm,
+                    desc,
+                    lang,
+                    stars,
+                    forks: '0',
+                    url: `https://github.com/${uname}/${nm}`,
+                });
+            });
+
+            return repos.length ? repos.slice(0, 6) : null;
+        }
+
+        function renderCards(grid, repos) {
+            grid.innerHTML = '';
+            repos.forEach((r, i) => {
+                const card = buildCard(r);
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                grid.appendChild(card);
+                setTimeout(() => {
+                    card.style.transition = 'opacity .5s ease, transform .5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = '';
+                }, i * 80);
+            });
+            // Attach the delegated listener after cards are added
+            initProjectGridDelegation();
+        }
+
+        function showPlaceholders(grid, failed) {
+            if (failed) {
+                grid.innerHTML = `<div class="proj-loading">
+                    <p style="font-family:var(--mono);font-size:13px;color:var(--muted)">Could not load repositories.</p>
+                    <p style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:8px">
+                      Set your GitHub username in CFG or add manualRepos.
+                    </p></div>`;
+                return;
+            }
+            const samples = [
+                { name: 'sdn-controller', desc: 'Lightweight SDN controller implementing custom flow rules over OpenFlow switches.', lang: 'Python', stars: '24', forks: '6', url: '#' },
+                { name: 'protocol-suite', desc: 'Custom binary protocol parser for high-throughput packet capture environments.', lang: 'C++', stars: '18', forks: '3', url: '#' },
+                { name: 'topology-sim', desc: 'Network topology simulation on Mininet for testing distributed routing algorithms.', lang: 'Python', stars: '12', forks: '2', url: '#' },
+                { name: 'mern-dashboard', desc: 'Full-stack MERN app with real-time visualisation and JWT authentication flows.', lang: 'JavaScript', stars: '31', forks: '8', url: '#' },
+                { name: 'cp-templates', desc: 'Competitive programming template library — graphs, segment trees, number theory.', lang: 'C++', stars: '41', forks: '14', url: '#' },
+                { name: 'flow-manager', desc: 'REST-based API for dynamic flow table management in SDN deployment scenarios.', lang: 'JavaScript', stars: '9', forks: '1', url: '#' },
+            ];
+            grid.innerHTML = `<div style="grid-column:1/-1;font-family:var(--mono);font-size:11px;color:var(--dim);padding-bottom:20px">
+                ⚠ Set CFG.github to load your real pinned repos · showing preview cards</div>`;
+            renderCards(grid, samples);
+        }
+    </script>
+</body>
+</html>
