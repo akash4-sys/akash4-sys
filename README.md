@@ -1,75 +1,51 @@
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=4000&pause=500&color=0366D6&center=true&vCenter=true&width=500&lines=Hi%2C+I'm+Akash+%F0%9F%91%8B;Research+Scholar;Competitive+Programmer" alt="Typing SVG" />
+</div>
+
+---
+
+## 🧑‍💻 About Me
+
+- 🔬 Research interests: **Software‑Defined Networking (SDN)** and **Fuzzing**
+- 💻 I enjoy building efficient and scalable software 
+- 🏆 Passionate about **Competitive Programming** and solving algorithmic challenges
+- 🌱 Always learning: diving deeper into networking, fuzzing and distributed systems
+- 🎓 Currently pursuing a **Master’s with Research** in **Computer Science**
+-  **Software‑Defined Networking (SDN)** – exploring programmable network control planes, distributed algorithms etc.
+- **Fuzzing** – building fuzzers to discover vulnerabilities in network protocols and network softwares.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category              | Tools & Languages                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Languages**         | ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)                                                                                                     |
+| **Tools & Platforms** | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) ![ONOS\|78](https://img.shields.io/badge/ONOS-SDN-blue?style=flat-square) ![Mininet](https://img.shields.io/badge/Mininet-Emulation-orange?style=flat-square)                                                                                                                                                                       |
+| **Research Areas**    | Software‑Defined Networking, Fuzzing, Network Security                                                                                                                                                                                                                                                                                                                                                                           |
+| **Frameworks**        | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white) |
+
+---
+
+## 📈 Competitive Programming & Problem Solving
+
 <p align="center">
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=FD428D&width=435&lines=Hi+I'm+Akash%2C+Welcome+to+my+profile"/>
+  <a href="https://leetcode.com/your-leetcode-username" target="_blank">
+    <img src="https://leetcard.jacoblin.cool/codex47?theme=dark&font=Karma&ext=contest" alt="LeetCode Stats" width="400"/>
+  </a>
 </p>
 
-<img src="./assets/borderseparator.gif" width="100%"/>
+---
 
-<!-- <p align="center">
-
-  <img src="https://komarev.com/ghpvc/?username=akash4-sys&color=ff69b4" />
-
-</p> -->
-<br>
-
-<img align="right" src="./assets/vaporwave-aesthetic.gif" height="560px" alt="pixel city image">
-
-
-<h2 align="center"> Self-taught and passionate about coding! </h2><br>
-
-- 👨‍💻 I'm Akash(akash4-sys)👋, a college student, I'm currently pursuing a Computer Science Degree in the India. <br><br><br>
-
-- 🌳 I’m currently learning TypeScript, Docker, Kubernetes and Microservices! <br><br><br>
-
-- 🐾 I’m looking to network and make friends here! <br><br><br>
-
-- 🌊 2023 Goals: Improve Competitive Programming rating and Contribute to Open Source Projects. <br><br><br>
-
-- ☕ Interest: Development, Math, Competitive Programming, Anime and Web Novel. <br><br><br>
-
-<!-- <div align="center">
-  <h2> <strong> Education </strong> <img src="./assets/borderseparator.gif"/> </h2>
-  <img src="https://img.shields.io/badge/Youtube-B1361E?style=for-the-badge&logo=Youtube&logoColor=white"/>
-  <img src="https://img.shields.io/badge/freecodecamp-27273D?style=for-the-badge&logo=freecodecamp&logoColor=white"/>
-  <img src="https://img.shields.io/badge/-CodeChef-1d3a77?style=for-the-badge&logo=CodeChef&logoColor=white"/>
-  <img src="https://img.shields.io/badge/-LeetCode-FFA116?style=for-the-badge&logo=LeetCode&logoColor=black"/>
-  <img src="https://img.shields.io/badge/Stack_Overflow-FE7A16?style=for-the-badge&logo=stack-overflow&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Udemy-EC5252?style=for-the-badge&logo=Udemy&logoColor=white"/>
-</div> -->
-
-</br>
+## 📊 GitHub Stats
 
 <div align="center">
-  <!-- <img src="./assets/pixel-neon.gif" alt="pixel guy using computer" width="100%" /> -->
-  <h2> <strong> Technologies and Skills </strong><img src="./assets/borderseparator.gif"/></h2><br>
-  <img src="https://skillicons.dev/icons?i=cpp,git,github,nodejs,webpack,js,mysql,svg,netlify,react,mongodb,express,redux,heroku,pug" alt="skills logos" /> <br>
-  <h3> <strong> Actively Learning </strong></h3>
-  <img src="https://skillicons.dev/icons?i=ts,jest,redis,kubernetes,docker" alt="skills actively learning logos"> <br> 
-  <h3> <strong> Planning to Learn </strong></h3>
-  <img src="https://skillicons.dev/icons?i=cs,dotnet,electron,graphql,java,ai,next,wasm" alt="skills planning to learn logos">
-</div></br>
-
-<div align="center">
-  <h2> <strong> My Github Stats </strong> <img src="./assets/borderseparator.gif"/></h2><br>
-  <img src="https://github-profile-trophy.vercel.app/?username=akash4-sys&theme=radical&no-frame=true&no-bg=true&row=1&column=7" width="100%" alt="Trophy" align="middle" /> <br><h2></h2><br>
-  <img src="https://streak-stats.demolab.com?user=akash4-sys&theme=radical" height="150" alt="streaks graph" />
-  <img src="https://github-readme-stats-godkingjay.vercel.app/api?username=akash4-sys&theme=radical&show_icons=true&count_private=true&include_all_commits=true" height="150" alt="stats graph" />
-</div> <br>
-
-![Akash's Github Activity Graph](https://github-readme-activity-graph.cyclic.app/graph?username=akash4-sys&custom_title=Akash's%20GitHub%20Activity%20Graph&bg_color=141321&color=A9FEF7&line=626069&point=F8D847&area_color=FE428E&title_color=FE428E&area=true)
-
-<br>
-<div align="center">
-  <h2>
-
-<strong> My Leetcode Stats </strong>
-
-[Codex47](https://leetcode.com/codex47)
-
-  <img src="./assets/borderseparator.gif"/>
-  </h2>
-  <br>
-  <img src="./assets/leetcode-ratings.png" alt="leetcode ratings" width="100%" />
-  <br>
-  <br>
-  <img src="./assets/leetcode-submission.png" alt="leetcode submission graph" width="100%" />
+  <a href="https://github.com/akash4-sys">
+    <img height="180em" src="https://github-readme-stats.vercel.app/api?username=akash4-sys&show_icons=true&theme=default&include_all_commits=true&count_private=true&hide_border=true" />
+    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=akash4-sys&layout=compact&langs_count=8&theme=default&hide_border=true" />
+  </a>
 </div>
+
+---
+
+*Thank you for visiting! Feel free to explore my repositories and reach out if you’d like to collaborate or chat about research, competitive programming, or anything tech.*
